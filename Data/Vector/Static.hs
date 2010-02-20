@@ -1,4 +1,6 @@
 {-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, TypeFamilies, TypeOperators, RankNTypes, FlexibleContexts, UndecidableInstances #-}
+module Data.Vector.Static where
+  
 import Prelude hiding (succ, replicate, map)
 import qualified Data.Vector as V
 import Unsafe.Coerce
