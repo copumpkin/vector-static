@@ -1,0 +1,21 @@
+Name:           vector-static
+Version:        0.0.1
+License:        BSD3
+License-File:   LICENSE
+Author:         Daniel Peebles <pumpkingod@gmail.com>
+Maintainer:     Daniel Peebles <pumpkingod@gmail.com>
+Copyright:      (c) Daniel Peebles 2010
+Homepage:       http://github.com/pumpkin/vector-static
+Category:       Data, Data Structures
+Synopsis:       Statically checked sizes on Data.Vector
+Description:
+        I got nothing
+
+Cabal-Version:  >= 1.2
+Build-Type:     Simple
+
+Library
+  Exposed-Modules:
+        Data.Vector.Static
+
+  Build-Depends: base >= 2 && < 5, mmap >= 0.5.4, vector >= 0.5, primitive >= 0.2.1
