@@ -4,7 +4,7 @@ import qualified Data.Vector as V
 import Unsafe.Coerce
 import Control.Arrow
 
-newtype I x = I { unI :: x }
+newtype I x   = I { unI :: x }
 newtype K x y = K { unK :: x }
 
 data Z = Z
