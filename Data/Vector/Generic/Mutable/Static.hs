@@ -12,6 +12,8 @@ import Data.Fin
 newtype MVec n v s a = MVec { unVec :: v s a }
   deriving (Show, Eq)
 
+-- length?
+
 overlaps :: MVector v a => MVec n v s a -> MVec n v s a -> Bool
 overlaps (MVec x) (MVec y) = GM.overlaps x y
 
@@ -56,3 +58,35 @@ init (MVec vs) = MVec (GM.unsafeInit vs)
 
 tail :: MVector v a => MVec (S n) v s a -> MVec n v s a
 tail (MVec vs) = MVec (GM.unsafeTail vs)
+
+{-
+unstream :: (PrimMonad m, MVector v a) => Stream a -> m (MVec n v (PrimState m) a)
+unstream = undefined
+
+transform :: (PrimMonad m, MVector v a) => (MStream m a -> MStream m a) -> v (PrimState m) a -> m (v (PrimState m) a)
+transform = undefined
+
+unstreamR :: (PrimMonad m, MVector v a) => Stream a -> m (v (PrimState m) a)
+unstreamR = undefined
+
+transformR :: (PrimMonad m, MVector v a) => (MStream m a -> MStream m a) -> v (PrimState m) a -> m (v (PrimState m) a)
+transformR = undefined
+
+accum :: (PrimMonad m, MVector v a) => (a -> b -> a) -> v (PrimState m) a -> Stream (Int, b) -> m ()
+accum = undefined
+
+update :: (PrimMonad m, MVector v a) => v (PrimState m) a -> Stream (Int, a) -> m ()
+update = undefined
+
+reverse :: (PrimMonad m, MVector v a) => v (PrimState m) a -> m ()
+reverse = undefined
+
+unstablePartition :: forall m v a. (PrimMonad m, MVector v a) => (a -> Bool) -> v (PrimState m) a -> m Int
+unstablePartition = undefined
+
+unstablePartitionStream :: (PrimMonad m, MVector v a) => (a -> Bool) -> Stream a -> m (v (PrimState m) a, v (PrimState m) a)
+unstablePartitionStream = undefined
+
+partitionStream :: (PrimMonad m, MVector v a) => (a -> Bool) -> Stream a -> m (v (PrimState m) a, v (PrimState m) a)
+partitionStream = undefined
+-}

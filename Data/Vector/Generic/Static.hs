@@ -54,13 +54,6 @@ last (Vec vs) = G.unsafeLast vs
 -- headM
 -- lastM
 
--- unsafeIndex
--- unsafeHead
--- unsafeLast
--- unsafeIndexM
--- unsafeHeadM
--- unsafeLastM
-
 slice :: (G.Vector v a, Nat k) => Fin n -> k -> Vec (n :+: k) v a -> Vec k v a
 slice (Fin i) k (Vec vs) = Vec (G.unsafeSlice i (natToInt k) vs)
 
@@ -76,12 +69,6 @@ take k (Vec vs) = Vec (G.take (natToInt k) vs)
 drop :: (G.Vector v a, Nat k) => k -> Vec (n :+: k) v a -> Vec n v a
 drop k (Vec vs) = Vec (G.drop (natToInt k) vs)
 
--- unsafeSlice
--- unsafeInit
--- unsafeTail
--- unsafeTake
--- unsafeDrop
-
 -- accum
 -- accumulate
 -- accumulate_
@@ -94,14 +81,6 @@ backpermute (Vec vs) (Vec is) = Vec (G.unsafeBackpermute vs (unsafeCoerce is))
 
 reverse :: G.Vector v a => Vec n v a -> Vec n v a
 reverse (Vec vs) = Vec (G.reverse vs)
-
--- unsafeAccum
--- unsafeAccumulate
--- unsafeAccumulate_
--- unsafeUpd
--- unsafeUpdate
--- unsafeUpdate_
--- unsafeBackpermute
 
 
 map :: (G.Vector v a, G.Vector v b) => (a -> b) -> Vec n v a -> Vec n v b
