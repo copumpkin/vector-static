@@ -4,3 +4,4 @@
 - Add testsuite
 - Avoid almost verbatim duplication in the concrete instance modules (why can't we have parametrzied modules!?!)
 - Am I doing the generic vector stuff wrong? Probably, as I was unable to write transpose generically
+- Statically sized streams when possible!
