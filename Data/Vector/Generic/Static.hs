@@ -1,7 +1,7 @@
 {-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, TypeFamilies, TypeOperators, RankNTypes, FlexibleContexts, UndecidableInstances #-}
 module Data.Vector.Generic.Static where
 
-import Prelude hiding (succ, replicate, map)
+import Prelude hiding (take, drop)
 import qualified Data.Vector.Generic as G
 import Unsafe.Coerce
 
@@ -68,6 +68,8 @@ take k (Vec vs) = Vec (G.take (natToInt k) vs)
 
 drop :: (G.Vector v a, Nat k) => k -> Vec (n :+: k) v a -> Vec n v a
 drop k (Vec vs) = Vec (G.drop (natToInt k) vs)
+
+-- splitAt?
 
 -- accum
 -- accumulate
