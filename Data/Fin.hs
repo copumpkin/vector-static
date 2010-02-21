@@ -1,4 +1,7 @@
+{-# LANGUAGE TypeOperators #-}
 module Data.Fin where
+
+import Data.Nat
 
 newtype Fin n = Fin Int
   deriving (Show, Eq, Ord)

@@ -1,3 +1,4 @@
+{-# LANGUAGE RankNTypes, TypeOperators, TypeFamilies, ScopedTypeVariables, FlexibleContexts, UndecidableInstances #-}
 module Data.Nat where
 
 newtype I x   = I { unI :: x }
