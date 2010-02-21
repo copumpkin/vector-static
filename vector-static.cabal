@@ -6,16 +6,21 @@ Author:         Daniel Peebles <pumpkingod@gmail.com>
 Maintainer:     Daniel Peebles <pumpkingod@gmail.com>
 Copyright:      (c) Daniel Peebles 2010
 Homepage:       http://github.com/pumpkin/vector-static
+Stability:      Unstable
 Category:       Data, Data Structures
 Synopsis:       Statically checked sizes on Data.Vector
 Description:
-        I got nothing
+        Very unstable! Many interfaces are still incomplete or even empty. 
+        Nat and Fin will be moving to a separate package eventually.
 
 Cabal-Version:  >= 1.2
 Build-Type:     Simple
 
 Library
   Exposed-Modules:
+        Data.Nat,
+        Data.Fin,
+        
         Data.Vector.Generic.Static,
         Data.Vector.Generic.Mutable.Static,
 
