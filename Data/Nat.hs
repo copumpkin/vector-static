@@ -1,6 +1,8 @@
 {-# LANGUAGE RankNTypes, TypeOperators, TypeFamilies, ScopedTypeVariables, FlexibleContexts, UndecidableInstances #-}
 module Data.Nat where
 
+-- Borrowed from Ryan Ingram's http://www.mail-archive.com/haskell-cafe@haskell.org/msg60806.html
+
 newtype I x   = I { unI :: x }
 newtype K x y = K { unK :: x }
 

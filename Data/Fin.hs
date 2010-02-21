@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE TypeOperators, ScopedTypeVariables #-}
 module Data.Fin where
 
 import Data.Nat
@@ -12,5 +12,19 @@ zero = Fin 0
 succ :: Fin n -> Fin (S n)
 succ (Fin n) = Fin (n + 1)
 
+pred :: Fin n -> Fin n
+pred (Fin 0) = Fin 0
+pred (Fin n) = Fin (n - 1)
+
 addFin :: Fin x -> Fin y -> Fin (x :+: y)
 addFin (Fin x) (Fin y) = Fin (x + y)
+
+raise :: k -> Fin n -> Fin (n :+: k)
+raise _ (Fin i) = Fin i
+
+intToFin :: forall n. Nat n => Int -> Maybe (Fin n)
+intToFin i | i >= natToInt (witnessNat :: n) || i < 0 = Nothing
+           | otherwise = Just (Fin i)
+
+finToInt :: Fin n -> Int
+finToInt (Fin i) = i
