@@ -10,8 +10,6 @@ import Data.Vector.Generic.New
 import Data.Nat
 import Data.Fin
 
-import Control.Arrow
-
 newtype Vec n a = Vec { unVec :: G.Vec n V.Vector a }
 
 -- length
@@ -137,7 +135,8 @@ zip6 (Vec as) (Vec bs) (Vec cs) (Vec ds) (Vec es) (Vec fs) = Vec (G.zip6 as bs c
 
 
 unzip :: Vec n (a, b) -> (Vec n a, Vec n b)
-unzip (Vec abs) = Vec *** Vec $ G.unzip abs
+unzip (Vec vs) = (Vec as, Vec bs)
+  where (as, bs) = G.unzip vs
 
 unzip3 :: Vec n (a, b, c) -> (Vec n a, Vec n b, Vec n c)
 unzip3 (Vec vs) = (Vec as, Vec bs, Vec cs)

@@ -1,3 +1,5 @@
+- Add inline pragmas everywhere! We probably break fusion right now
+- Make (Fin n) a valid unboxed vector type
 - Split Fin/Nat into separate package
 - Add testsuite
 - Avoid almost verbatim duplication in the concrete instance modules (why can't we have parametrzied modules!?!)
