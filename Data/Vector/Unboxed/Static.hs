@@ -8,6 +8,8 @@ import qualified Data.Vector.Generic.Static as G
 import Data.Vector.Fusion.Stream
 import Data.Vector.Generic.New
 
+import Data.Vector.Unboxed.Fin
+
 import Data.Nat
 import Data.Fin
 
@@ -177,14 +179,14 @@ find p (Vec vs) = G.find p vs
 findIndex :: V.Unbox a => (a -> Bool) -> Vec n a -> Maybe (Fin n)
 findIndex p (Vec vs) = G.findIndex p vs
 
---findIndices :: V.Unbox a => (a -> Bool) -> Vec n a -> Vec m (Fin n)
---findIndices p (Vec vs) = Vec (G.findIndices p vs)
+findIndices :: V.Unbox a => (a -> Bool) -> Vec n a -> Vec m (Fin n)
+findIndices p (Vec vs) = Vec (G.findIndices p vs)
 
 elemIndex :: (V.Unbox a, Eq a) => a -> Vec n a -> Maybe (Fin n)
 elemIndex x (Vec vs) = G.elemIndex x vs
 
---elemIndices :: (V.Unbox a, Eq a) => a -> Vec n a -> Vec m (Fin n)
---elemIndices x (Vec vs) = Vec (G.elemIndices x vs)
+elemIndices :: (V.Unbox a, Eq a) => a -> Vec n a -> Vec m (Fin n)
+elemIndices x (Vec vs) = Vec (G.elemIndices x vs)
 
 
 foldl :: V.Unbox b => (a -> b -> a) -> a -> Vec n b -> a
@@ -319,6 +321,6 @@ unstreamR s f = G.unstreamR s (f . Vec)
 new :: V.Unbox a => New a -> (forall n. Vec n a -> r) -> r
 new n f = G.new n (f . Vec)
 
---allFin :: Nat n => Vec n (Fin n)
---allFin = Vec G.allFin
+allFin :: Nat n => Vec n (Fin n)
+allFin = Vec G.allFin
 

@@ -1,11 +1,12 @@
-{-# LANGUAGE TypeOperators, RankNTypes #-}
+{-# LANGUAGE TypeOperators, RankNTypes, GeneralizedNewtypeDeriving, StandaloneDeriving, MultiParamTypeClasses, FlexibleInstances, FlexibleContexts #-}
 module Data.Vector.Static where
 
-import Prelude hiding (map, replicate, zipWith)
+import Prelude hiding (map, replicate, zipWith, concatMap)
 
 import Control.Applicative
 
 import qualified Data.Vector as V
+import qualified Data.Vector.Generic as OG
 import qualified Data.Vector.Generic.Static as G
 
 import Data.Vector.Fusion.Stream (Stream)
@@ -23,6 +24,7 @@ instance Nat n => Applicative (Vec n) where
   pure = replicate
   (<*>) = zipWith id
 
+-- deriving instance OG.Vector V.Vector a => OG.Vector (Vec n) a :(
 
 -- length
 -- null
@@ -88,6 +90,11 @@ backpermute (Vec vs) (Vec is) = Vec (G.backpermute vs is)
 reverse :: Vec n a -> Vec n a
 reverse (Vec vs) = Vec (G.reverse vs)
 
+-- Gotta go back to the original here, or it gets too painful. Probably doing something wrong, as it should be generic.
+transpose :: (Nat m, Nat n) => Vec m (Vec n a) -> Vec n (Vec m a)
+transpose (Vec (G.Vec vs)) = Vec . G.Vec . V.map (Vec . G.Vec . V.backpermute flattened) . V.map (\x -> V.map ((x+) . (5*)) (V.enumFromN 0 3)) $ V.enumFromN 0 5
+  where flattened = V.concatMap (G.unVec . unVec) vs
+
 map :: (a -> b) -> Vec n a -> Vec n b
 map f (Vec vs) = Vec (G.map f vs)
 
@@ -96,6 +103,9 @@ imap f (Vec vs) = Vec (G.imap f vs)
 
 concatMap :: (a -> Vec n b) -> Vec m a -> Vec (m :*: n) b
 concatMap f (Vec as) = Vec (G.concatMap (unVec . f) as)
+
+concat :: Vec m (Vec n a) -> Vec (m :*: n) a
+concat = concatMap id -- should be referring to generic version, but I can't without deriving instance and everything sucks
 
 zipWith :: (a -> b -> c) -> Vec n a -> Vec n b -> Vec n c
 zipWith f (Vec as) (Vec bs) = Vec (G.zipWith f as bs)

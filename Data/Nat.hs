@@ -38,4 +38,4 @@ type instance (:+:) (S m) n = S (m :+: n)
 
 type family (:*:) a b :: *
 type instance (:*:) Z n = Z
-type instance (:*:) (S m) n = n :+: (m :*: n)
+type instance (:*:) (S m) n = (m :*: n) :*: n

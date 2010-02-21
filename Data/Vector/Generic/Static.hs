@@ -3,8 +3,9 @@ module Data.Vector.Generic.Static where
 
 import Control.Applicative
 
-import Prelude hiding (take, drop)
+import Prelude hiding (map, take, drop, concatMap)
 import qualified Data.Vector.Generic as G
+import qualified Data.Vector.Generic.Mutable as MG
 import Unsafe.Coerce
 
 import Data.Nat
@@ -86,7 +87,6 @@ backpermute (Vec vs) (Vec is) = Vec (G.unsafeBackpermute vs (unsafeCoerce is))
 reverse :: G.Vector v a => Vec n v a -> Vec n v a
 reverse (Vec vs) = Vec (G.reverse vs)
 
-
 map :: (G.Vector v a, G.Vector v b) => (a -> b) -> Vec n v a -> Vec n v b
 map f (Vec vs) = Vec (G.map f vs)
 
@@ -96,6 +96,8 @@ imap f (Vec vs) = Vec (G.imap (f . Fin) vs)
 concatMap :: (G.Vector v a, G.Vector v b) => (a -> Vec n v b) -> Vec m v a -> Vec (m :*: n) v b
 concatMap f (Vec as) = Vec (G.concatMap (unVec . f) as)
 
+concat :: (G.Vector v (Vec n v a), G.Vector v a) => Vec m v (Vec n v a) -> Vec (m :*: n) v a
+concat = concatMap id
 
 zipWith :: (G.Vector v a, G.Vector v b, G.Vector v c) => (a -> b -> c) -> Vec n v a -> Vec n v b -> Vec n v c
 zipWith f (Vec as) (Vec bs) = Vec (G.zipWith f as bs)
@@ -328,3 +330,6 @@ new n f = f (Vec (G.new n))
 
 allFin :: forall n v. (Nat n, G.Vector v (Fin n)) => Vec n v (Fin n)
 allFin = Vec (G.generate (natToInt (witnessNat :: n)) Fin)
+
+indexed :: (G.Vector v a, G.Vector v (Fin n, a)) => Vec n v a -> Vec n v (Fin n, a)
+indexed = imap (,)
