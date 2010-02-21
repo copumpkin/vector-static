@@ -1,6 +1,8 @@
 {-# LANGUAGE ExistentialQuantification, ScopedTypeVariables, TypeFamilies, TypeOperators, RankNTypes, FlexibleContexts, UndecidableInstances #-}
 module Data.Vector.Generic.Static where
 
+import Control.Applicative
+
 import Prelude hiding (take, drop)
 import qualified Data.Vector.Generic as G
 import Unsafe.Coerce

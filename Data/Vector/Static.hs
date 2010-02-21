@@ -1,16 +1,28 @@
 {-# LANGUAGE TypeOperators, RankNTypes #-}
 module Data.Vector.Static where
 
+import Prelude hiding (map, replicate, zipWith)
+
+import Control.Applicative
+
 import qualified Data.Vector as V
 import qualified Data.Vector.Generic.Static as G
 
-import Data.Vector.Fusion.Stream
-import Data.Vector.Generic.New
+import Data.Vector.Fusion.Stream (Stream)
+import Data.Vector.Generic.New (New)
 
 import Data.Nat
 import Data.Fin
 
 newtype Vec n a = Vec { unVec :: G.Vec n V.Vector a }
+
+instance Functor (Vec n) where
+  fmap = map
+  
+instance Nat n => Applicative (Vec n) where
+  pure = replicate
+  (<*>) = zipWith id
+
 
 -- length
 -- null
