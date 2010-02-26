@@ -1,4 +1,3 @@
-- Add inline pragmas everywhere! We probably break fusion right now
 - Make (Fin n) a valid storable vector type. It's just a newtype around Int so it should be pretty easy
 - Split Fin/Nat into separate package
 - Add testsuite

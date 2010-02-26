@@ -20,7 +20,7 @@ newtype Vec n a = Vec { unVec :: G.Vec n V.Vector a }
 instance Functor (Vec n) where
   fmap = map
 
--- The Applicative and Monad instances are slow because of witnessNat! avoid them!
+-- The Applicative and Monad instances are slow (return and pure) because of witnessNat! avoid them!
 instance Nat n => Applicative (Vec n) where
   pure = replicate witnessNat
   (<*>) = zipWith id
@@ -31,9 +31,8 @@ instance Nat n => Monad (Vec n) where
 
 diagonal :: Nat n => Vec n (Vec n a) -> Vec n a
 {-# INLINE diagonal #-}
-diagonal vs = zipWith (!) vs (allFin witnessNat)
+diagonal vs = zipWith (!) vs (allFin . G.length . unVec $ vs)
 
--- deriving instance OG.Vector V.Vector a => OG.Vector (Vec n) a :(
 
 length :: Nat n => Vec n a -> n
 {-# INLINE length #-}
