@@ -2,6 +2,6 @@
 - Make (Fin n) a valid unboxed (and storable) vector type. It's just a newtype around Int so it should be pretty easy
 - Split Fin/Nat into separate package
 - Add testsuite
-- Avoid almost verbatim duplication in the concrete instance modules (why can't we have parametrzied modules!?!)
-- Am I doing the generic vector stuff wrong? Probably, as I was unable to write transpose generically
+- Avoid almost verbatim duplication in the concrete instance modules (why can't we have parametrized modules!?!)
 - Statically sized streams when possible!
+- Move to Word instead of Int when/if Vector (and ghc-prim) does too.

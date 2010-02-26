@@ -27,11 +27,11 @@ cons x (Vec xs) = Vec (G.cons x xs)
 snoc :: V.Storable a => Vec n a -> a -> Vec (S n) a
 snoc (Vec xs) x = Vec (G.snoc xs x)
 
-replicate :: (V.Storable a, Nat n) => a -> Vec n a
-replicate = Vec . G.replicate
+replicate :: (V.Storable a, Nat n) => n -> a -> Vec n a
+replicate n = Vec . G.replicate n
 
-generate :: (V.Storable a, Nat n) => (Fin n -> a) -> Vec n a
-generate f = Vec (G.generate f)
+generate :: (V.Storable a, Nat n) => n -> (Fin n -> a) -> Vec n a
+generate n f = Vec (G.generate n f)
 
 (++) :: V.Storable a => Vec m a -> Vec n a -> Vec (m :+: n) a
 Vec ms ++ Vec ns = Vec (ms G.++ ns)
@@ -250,11 +250,11 @@ unfoldr f x c = G.unfoldr f x (c . Vec)
 -- scanr1
 -- scanr1'
 
-enumFromN :: forall a n. (V.Storable a, Num a, Nat n) => a -> Vec n a
-enumFromN x = Vec (G.enumFromN x)
+enumFromN :: forall a n. (V.Storable a, Num a, Nat n) => a -> n -> Vec n a
+enumFromN x n = Vec (G.enumFromN x n)
 
-enumFromStepN :: forall a n. (V.Storable a, Num a, Nat n) => a -> a -> Vec n a
-enumFromStepN x x1 = Vec (G.enumFromStepN x x1)
+enumFromStepN :: forall a n. (V.Storable a, Num a, Nat n) => a -> a -> n -> Vec n a
+enumFromStepN x x1 n = Vec (G.enumFromStepN x x1 n)
 
 -- enumFromTo
 -- enumFromThenTo

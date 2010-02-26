@@ -21,7 +21,7 @@ instance Functor (Vec n) where
   fmap = map
   
 instance Nat n => Applicative (Vec n) where
-  pure = replicate
+  pure = replicate witnessNat
   (<*>) = zipWith id
 
 -- deriving instance OG.Vector V.Vector a => OG.Vector (Vec n) a :(
@@ -41,11 +41,11 @@ cons x (Vec xs) = Vec (G.cons x xs)
 snoc :: Vec n a -> a -> Vec (S n) a
 snoc (Vec xs) x = Vec (G.snoc xs x)
 
-replicate :: Nat n => a -> Vec n a
-replicate = Vec . G.replicate
+replicate :: Nat n => n -> a -> Vec n a
+replicate n = Vec . G.replicate n
 
-generate :: Nat n => (Fin n -> a) -> Vec n a
-generate f = Vec (G.generate f)
+generate :: Nat n => n -> (Fin n -> a) -> Vec n a
+generate n f = Vec (G.generate n f)
 
 (++) :: Vec m a -> Vec n a -> Vec (m :+: n) a
 Vec ms ++ Vec ns = Vec (ms G.++ ns)
@@ -90,11 +90,6 @@ backpermute (Vec vs) (Vec is) = Vec (G.backpermute vs is)
 reverse :: Vec n a -> Vec n a
 reverse (Vec vs) = Vec (G.reverse vs)
 
--- Gotta go back to the original here, or it gets too painful. Probably doing something wrong, as it should be generic.
-transpose :: (Nat m, Nat n) => Vec m (Vec n a) -> Vec n (Vec m a)
-transpose (Vec (G.Vec vs)) = Vec . G.Vec . V.map (Vec . G.Vec . V.backpermute flattened) . V.map (\x -> V.map ((x+) . (5*)) (V.enumFromN 0 3)) $ V.enumFromN 0 5
-  where flattened = V.concatMap (G.unVec . unVec) vs
-
 map :: (a -> b) -> Vec n a -> Vec n b
 map f (Vec vs) = Vec (G.map f vs)
 
@@ -103,9 +98,6 @@ imap f (Vec vs) = Vec (G.imap f vs)
 
 concatMap :: (a -> Vec n b) -> Vec m a -> Vec (m :*: n) b
 concatMap f (Vec as) = Vec (G.concatMap (unVec . f) as)
-
-concat :: Vec m (Vec n a) -> Vec (m :*: n) a
-concat = concatMap id -- should be referring to generic version, but I can't without deriving instance and everything sucks
 
 zipWith :: (a -> b -> c) -> Vec n a -> Vec n b -> Vec n c
 zipWith f (Vec as) (Vec bs) = Vec (G.zipWith f as bs)
@@ -310,11 +302,11 @@ unfoldr f x c = G.unfoldr f x (c . Vec)
 -- scanr1
 -- scanr1'
 
-enumFromN :: forall a n. (Num a, Nat n) => a -> Vec n a
-enumFromN x = Vec (G.enumFromN x)
+enumFromN :: forall a n. (Num a, Nat n) => a -> n -> Vec n a
+enumFromN x n = Vec (G.enumFromN x n)
 
-enumFromStepN :: forall a n. (Num a, Nat n) => a -> a -> Vec n a
-enumFromStepN x x1 = Vec (G.enumFromStepN x x1)
+enumFromStepN :: forall a n. (Num a, Nat n) => a -> a -> n -> Vec n a
+enumFromStepN x x1 n = Vec (G.enumFromStepN x x1 n)
 
 -- enumFromTo
 -- enumFromThenTo
@@ -340,6 +332,6 @@ unstreamR s f = G.unstreamR s (f . Vec)
 new :: New a -> (forall n. Vec n a -> r) -> r
 new n f = G.new n (f . Vec)
 
-allFin :: Nat n => Vec n (Fin n)
-allFin = Vec G.allFin
+allFin :: Nat n => n -> Vec n (Fin n)
+allFin = Vec . G.allFin
 

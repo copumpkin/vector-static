@@ -17,11 +17,11 @@ newtype MVec n v s a = MVec { unVec :: v s a }
 overlaps :: MVector v a => MVec n v s a -> MVec n v s a -> Bool
 overlaps (MVec x) (MVec y) = GM.overlaps x y
 
-new :: forall m v a n. (PrimMonad m, GM.MVector v a, Nat n) => m (MVec n v (PrimState m) a)
-new = liftM MVec (GM.unsafeNew (natToInt (witnessNat :: n)))
+new :: forall m v a n. (PrimMonad m, GM.MVector v a, Nat n) => n -> m (MVec n v (PrimState m) a)
+new n = liftM MVec (GM.unsafeNew (natToInt n))
 
-newWith :: forall m v a n. (PrimMonad m, GM.MVector v a, Nat n) => a -> m (MVec n v (PrimState m) a)
-newWith x = liftM MVec (GM.unsafeNewWith (natToInt (witnessNat :: n)) x)
+newWith :: forall m v a n. (PrimMonad m, GM.MVector v a, Nat n) => n -> a -> m (MVec n v (PrimState m) a)
+newWith n x = liftM MVec (GM.unsafeNewWith (natToInt n) x)
 
 read :: (PrimMonad m, GM.MVector v a) => MVec n v (PrimState m) a -> Fin n -> m a
 read (MVec vs) (Fin i) = GM.unsafeRead vs i

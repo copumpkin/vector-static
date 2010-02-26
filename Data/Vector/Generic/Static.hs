@@ -32,11 +32,11 @@ cons x (Vec xs) = Vec (G.cons x xs)
 snoc :: G.Vector v a => Vec n v a -> a -> Vec (S n) v a
 snoc (Vec xs) x = Vec (G.snoc xs x)
 
-replicate :: forall a n v. (Nat n, G.Vector v a) => a -> Vec n v a
-replicate = Vec . G.replicate (natToInt (witnessNat :: n))
+replicate :: forall a n v. (Nat n, G.Vector v a) => n -> a -> Vec n v a
+replicate n = Vec . G.replicate (natToInt n)
 
-generate :: forall n v a. (Nat n, G.Vector v a) =>  (Fin n -> a) -> Vec n v a
-generate f = Vec (G.generate (natToInt (witnessNat :: n)) (f . Fin))
+generate :: forall n v a. (Nat n, G.Vector v a) => n -> (Fin n -> a) -> Vec n v a
+generate n f = Vec (G.generate (natToInt n) (f . Fin))
 
 (++) :: G.Vector v a => Vec m v a -> Vec n v a -> Vec (m :+: n) v a
 Vec ms ++ Vec ns = Vec (ms G.++ ns)
@@ -95,9 +95,6 @@ imap f (Vec vs) = Vec (G.imap (f . Fin) vs)
 
 concatMap :: (G.Vector v a, G.Vector v b) => (a -> Vec n v b) -> Vec m v a -> Vec (m :*: n) v b
 concatMap f (Vec as) = Vec (G.concatMap (unVec . f) as)
-
-concat :: (G.Vector v (Vec n v a), G.Vector v a) => Vec m v (Vec n v a) -> Vec (m :*: n) v a
-concat = concatMap id
 
 zipWith :: (G.Vector v a, G.Vector v b, G.Vector v c) => (a -> b -> c) -> Vec n v a -> Vec n v b -> Vec n v c
 zipWith f (Vec as) (Vec bs) = Vec (G.zipWith f as bs)
@@ -188,7 +185,7 @@ find p (Vec vs) = G.find p vs
 findIndex :: G.Vector v a => (a -> Bool) -> Vec n v a -> Maybe (Fin n)
 findIndex p (Vec vs) = fmap Fin $ G.findIndex p vs
 
-findIndices :: (G.Vector v a, G.Vector v Int, G.Vector v (Fin n)) => (a -> Bool) -> Vec n v a -> Vec m v (Fin n) -- should we return proof that m <= n?
+findIndices :: (G.Vector v a, G.Vector v Int, G.Vector v (Fin n)) => (a -> Bool) -> Vec n v a -> Vec m v (Fin n) -- should we return proof that m <= n? Maybe just return k and m such that m + k = n.
 findIndices p (Vec vs) = Vec (G.map Fin $ G.findIndices p vs)
 
 elemIndex :: G.Vector v a => Eq a => a -> Vec n v a -> Maybe (Fin n)
@@ -298,11 +295,11 @@ unfoldr f x c = c (Vec (G.unfoldr f x))
 -- scanr1
 -- scanr1'
 
-enumFromN :: forall v a n. (G.Vector v a, Num a, Nat n) => a -> Vec n v a
-enumFromN x = Vec (G.enumFromN x (natToInt (witnessNat :: n)))
+enumFromN :: forall v a n. (G.Vector v a, Num a, Nat n) => a -> n -> Vec n v a
+enumFromN x n = Vec (G.enumFromN x (natToInt n))
 
-enumFromStepN :: forall v a n. (G.Vector v a, Num a, Nat n) => a -> a -> Vec n v a
-enumFromStepN x x1 = Vec (G.enumFromStepN x x1 (natToInt (witnessNat :: n)))
+enumFromStepN :: forall v a n. (G.Vector v a, Num a, Nat n) => a -> a -> n -> Vec n v a
+enumFromStepN x x1 n = Vec (G.enumFromStepN x x1 (natToInt n))
 
 -- enumFromTo
 -- enumFromThenTo
@@ -328,8 +325,8 @@ unstreamR s f = f (Vec (G.unstreamR s))
 new :: G.Vector v a => New a -> (forall n. Vec n v a -> r) -> r
 new n f = f (Vec (G.new n))
 
-allFin :: forall n v. (Nat n, G.Vector v (Fin n)) => Vec n v (Fin n)
-allFin = Vec (G.generate (natToInt (witnessNat :: n)) Fin)
+allFin :: forall n v. (Nat n, G.Vector v (Fin n)) => n -> Vec n v (Fin n)
+allFin n = Vec (G.generate (natToInt n) Fin)
 
 indexed :: (G.Vector v a, G.Vector v (Fin n, a)) => Vec n v a -> Vec n v (Fin n, a)
 indexed = imap (,)

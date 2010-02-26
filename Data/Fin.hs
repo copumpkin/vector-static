@@ -17,14 +17,14 @@ pred (Fin 0) = Fin 0
 pred (Fin n) = Fin (n - 1)
 
 addFin :: Fin x -> Fin y -> Fin (x :+: y)
-addFin (Fin x) (Fin y) = Fin (x + y)
+addFin (Fin x) (Fin y) = Fin $ x + y
 
 mulFin :: Fin x -> Fin y -> Fin (x :*: y)
-mulFin (Fin x) (Fin y) = Fin (x * y)
+mulFin (Fin x) (Fin y) = Fin $ x * y
 
 -- 5 * Fin 13 is max 5 * 12 = 60, or Fin 61
 mulNatFin :: Nat x => x -> Fin (S y) -> Fin (S (x :*: y))
-mulNatFin x (Fin y) = Fin (natToInt x * y)
+mulNatFin x (Fin y) = Fin $ natToInt x * y
 
 raise :: k -> Fin n -> Fin (n :+: k)
 raise _ (Fin i) = Fin i
