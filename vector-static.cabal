@@ -26,7 +26,8 @@ Library
 
         Data.Vector.Static,
         Data.Vector.Mutable.Static,
-      
+        
+        Data.Vector.Unboxed.Fin,      
         Data.Vector.Unboxed.Static,
         Data.Vector.Unboxed.Mutable.Static,
 

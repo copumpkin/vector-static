@@ -22,7 +22,7 @@ addFin (Fin x) (Fin y) = Fin $ x + y
 mulFin :: Fin x -> Fin y -> Fin (x :*: y)
 mulFin (Fin x) (Fin y) = Fin $ x * y
 
--- 5 * Fin 13 is max 5 * 12 = 60, or Fin 61
+-- 5 * Fin 13 is at most 5 * 12 = 60, or Fin 61. Is this too tight?
 mulNatFin :: Nat x => x -> Fin (S y) -> Fin (S (x :*: y))
 mulNatFin x (Fin y) = Fin $ natToInt x * y
 

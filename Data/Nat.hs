@@ -12,6 +12,13 @@ newtype K x y = K { unK :: x }
 newtype Z   = Z Int
 newtype S n = S Int
 
+-- These are bad instances, but I'll come up with something better soon.
+instance Show Z where
+  show _ = "0"
+
+instance Nat n => Show (S n) where
+  show = show . natToInt
+
 z :: Z
 z = Z 0
 
