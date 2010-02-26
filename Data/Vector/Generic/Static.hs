@@ -17,7 +17,10 @@ import Data.Vector.Generic.New (New)
 newtype Vec n v a = Vec { unVec :: v a }
   deriving (Show, Eq)
 
--- length
+
+length :: (G.Vector v a, Nat n) => Vec n v a -> n
+length = unsafeCoerce . G.length . unVec
+
 -- null
 
 empty :: G.Vector v a => Vec Z v a

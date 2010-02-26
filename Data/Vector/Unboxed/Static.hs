@@ -15,7 +15,9 @@ import Data.Fin
 
 newtype Vec n a = Vec { unVec :: G.Vec n V.Vector a }
 
--- length
+length :: (V.Unbox a, Nat n) => Vec n a -> n
+length = G.length . unVec
+
 -- null
 
 empty :: V.Unbox a => Vec Z a

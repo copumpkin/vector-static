@@ -26,7 +26,9 @@ instance Nat n => Applicative (Vec n) where
 
 -- deriving instance OG.Vector V.Vector a => OG.Vector (Vec n) a :(
 
--- length
+length :: Nat n => Vec n a -> n
+length = G.length . unVec
+
 -- null
 
 empty :: Vec Z a
