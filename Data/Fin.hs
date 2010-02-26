@@ -29,9 +29,9 @@ mulNatFin x (Fin y) = Fin $ natToInt x * y
 raise :: k -> Fin n -> Fin (n :+: k)
 raise _ (Fin i) = Fin i
 
-intToFin :: forall n. Nat n => Int -> Maybe (Fin n)
-intToFin i | i >= natToInt (witnessNat :: n) || i < 0 = Nothing
-           | otherwise = Just (Fin i)
+intToFin :: forall n. Nat n => Int -> n -> Maybe (Fin n)
+intToFin i n | i >= natToInt n || i < 0 = Nothing
+             | otherwise = Just (Fin i)
 
 finToInt :: Fin n -> Int
 finToInt (Fin i) = i

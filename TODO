@@ -1,7 +1,8 @@
 - Add inline pragmas everywhere! We probably break fusion right now
-- Make (Fin n) a valid unboxed (and storable) vector type. It's just a newtype around Int so it should be pretty easy
+- Make (Fin n) a valid storable vector type. It's just a newtype around Int so it should be pretty easy
 - Split Fin/Nat into separate package
 - Add testsuite
 - Avoid almost verbatim duplication in the concrete instance modules (why can't we have parametrized modules!?!)
 - Statically sized streams when possible!
 - Move to Word instead of Int when/if Vector (and ghc-prim) does too.
+- Too much unsafeCoerce! Do we really need it all? Rewrite rules maybe?
